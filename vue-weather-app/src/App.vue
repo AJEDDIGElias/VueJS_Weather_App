@@ -2,21 +2,29 @@
   <div id="app">
     <main>
       <div class="search-box">
-        <input type="text" class="search-bar" placeholder="Search..." />
+        <input 
+        type="text" 
+        class="search-bar" 
+        placeholder="Search..."
+        v-model="query"
+        @keypress="fetchWeather"
+         />
       </div>
 
-      <div class="weather-wrap">
+      <div class="weather-wrap" v-if="typeof weather.current != 'undefined'" >
         <div class="location-box">
           <div class="location">
-            Paris, FR
+            {{ weather.location.name }}
           </div>
           <div class="date">
-            Thursday 2 February 2023
+            {{ dateBuilder() }}
           </div>
         </div>
         <div class="weather-box">
-          <div class="temp">9°</div>
-          <div class="weather">Rain</div>
+          <div class="temp">{{ weather.current.temp_c }}°C</div>
+          <div class="weather">{{ weather.current.condition.text }}</div>
+          <div class="wind">Wind :{{ weather.current.wind_kph }} km/h direction {{ weather.current.wind_dir }} </div>
+          <div class="humidity">Humidity : {{ weather.current.humidity }}%</div>
         </div>
       </div>
     </main>
@@ -29,8 +37,39 @@ export default {
   name: 'App',
   data () {
     return {
-      api_key : '0f96a26f38c2bf99b2a27665950aa4cb'
+      api_key : '8b90b8711a084f038d9160921230102',
+      url_base : 'http://api.weatherapi.com/v1/',
+      query: '',
+      weather: {}
     }
+  },
+
+  methods: {
+    fetchWeather (e) { 
+      //If Enter is pressed
+      if (e.key == "Enter") {
+        //http://api.weatherapi.com/v1/current.json?key=8b90b8711a084f038d9160921230102&q=London&aqi=no
+        fetch(`${this.url_base}current.json?key=${this.api_key}&q=${this.query}`)
+        .then((res) => res.json())
+        .then(this.setResults);
+      }
+    },
+
+    setResults (results) {
+      this.weather = results;
+    },
+
+    dateBuilder () {
+      let d = new Date();
+      let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      let day = days[d.getDay()];
+      let date = d.getDate();
+      let month = months[d.getMonth()];
+      let year = d.getFullYear();
+      return `${day} ${date} ${month} ${year}`;
+    }
+    
   }
 }
 </script>
@@ -127,6 +166,22 @@ main {
   font-size: 48px;
   font-weight: 700;
   font-style: italic;
+  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.weather-box .wind {
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: normal;
+  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.weather-box .humidity {
+  color: #FFF;
+  font-size: 20px;
+  font-weight: 700;
+  font-style: normal;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
 
