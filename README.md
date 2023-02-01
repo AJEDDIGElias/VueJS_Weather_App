@@ -1,6 +1,6 @@
 # VueJS_Weather_App
 
-![Demo](./vue-weather-app/assets/Demo.png)
+![Demo](/vue-weather-app/assets/Demo.png)
 
 ## 📖 Table of Contents
 
