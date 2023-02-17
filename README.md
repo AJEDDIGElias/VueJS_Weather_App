@@ -1,9 +1,8 @@
 # vue-weather-app
 
-<<<<<<< HEAD
 ## Project setup
 =======
-![Demo](/vue-weather-app/src/assets/Demo.png)
+![Demo](/src/assets/Demo.png)
 
 ## 📖 Table of Contents
 
@@ -30,7 +29,6 @@ For this project, I used [npm](https://www.npmjs.com/) for default package manag
 ## 💾 Install [🔝](#-table-of-contents)
 
 Project setup
->>>>>>> 654fea07f95114477868c41b484d6cd4207ecc74
 ```
 npm install
 ```
